@@ -1,0 +1,82 @@
+import React, { useEffect, useState } from "react";
+import { collection, getDocs } from "firebase/firestore";
+import { db } from "../firebase";
+
+export default function Home() {
+  const [posts, setPosts] = useState([]);
+
+  useEffect(() => {
+    const fetchPosts = async () => {
+      try {
+        const querySnapshot = await getDocs(collection(db, "posts"));
+        const postsArray = [];
+        querySnapshot.forEach((doc) => {
+          postsArray.push({ id: doc.id, ...doc.data() });
+        });
+        setPosts(postsArray);
+      } catch (err) {
+        console.error("Error fetching posts:", err);
+      }
+    };
+    fetchPosts();
+  }, []);
+
+  return (
+    <div className="min-h-screen bg-gray-50 p-6">
+      <div className="max-w-6xl mx-auto">
+        <h1 className="text-3xl font-bold text-center mb-8 text-blue-600">
+          Campus Market 🏫
+        </h1>
+
+        {posts.length === 0 ? (
+          <p className="text-center text-gray-600">
+            No posts yet. Add some in Firestore!
+          </p>
+        ) : (
+          <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-6">
+            {posts.map((post) => (
+              <div
+                key={post.id}
+                className="bg-white shadow-md rounded-xl overflow-hidden hover:shadow-lg transition"
+              >
+                {post.image ? (
+                  <img
+                    src={post.image}
+                    alt={post.title}
+                    className="h-48 w-full object-cover"
+                  />
+                ) : (
+                  <div className="h-48 bg-gray-200 flex items-center justify-center text-gray-400">
+                    No Image
+                  </div>
+                )}
+                <div className="p-4">
+                  <h3 className="text-lg font-semibold text-gray-800">
+                    {post.title}
+                  </h3>
+                  <p className="text-sm text-gray-500">{post.category}</p>
+                  <p className="text-blue-600 font-bold mt-1">
+                    KES {post.price}
+                  </p>
+                  <p className="text-sm text-gray-600 mt-2 line-clamp-2">
+                    {post.description}
+                  </p>
+                  <div className="mt-3 text-sm text-gray-500">
+                    <p>
+                      <span className="font-semibold">Seller:</span>{" "}
+                      {post.seller}
+                    </p>
+                    <p>
+                      <span className="font-semibold">Contact:</span>{" "}
+                      {post.contact}
+                    </p>
+                  </div>
+                </div>
+              </div>
+            ))}
+          </div>
+        )}
+      </div>
+    </div>
+  );
+}
