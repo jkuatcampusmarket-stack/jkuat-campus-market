@@ -7,6 +7,7 @@ export default function Categories() {
   const [selectedCategory, setSelectedCategory] = useState("");
   const [posts, setPosts] = useState([]);
   const [loading, setLoading] = useState(false);
+  const [selectedImage, setSelectedImage] = useState(null); // 👈 for full-screen modal
 
   // ✅ Updated list (matches PostItem.jsx)
   const categories = [
@@ -83,7 +84,8 @@ export default function Categories() {
                   <img
                     src={post.image}
                     alt={post.title}
-                    className="w-full h-40 object-cover rounded-lg mb-2"
+                    className="w-full h-40 object-cover rounded-lg mb-2 cursor-pointer"
+                    onClick={() => setSelectedImage(post.image)} // 👈 click to open modal
                   />
                 )}
                 <h3 className="font-semibold text-lg">{post.title}</h3>
@@ -103,6 +105,28 @@ export default function Categories() {
         <p className="text-gray-600 text-center">
           Please select a category to view posts.
         </p>
+      )}
+
+      {/* 👇 Fullscreen Image Modal */}
+      {selectedImage && (
+        <div
+          className="fixed inset-0 bg-black bg-opacity-80 flex justify-center items-center z-50"
+          onClick={() => setSelectedImage(null)}
+        >
+          <div className="relative">
+            <img
+              src={selectedImage}
+              alt="Full view"
+              className="max-h-[90vh] max-w-[90vw] rounded-lg shadow-lg"
+            />
+            <button
+              onClick={() => setSelectedImage(null)}
+              className="absolute top-3 right-3 bg-white text-gray-800 px-3 py-1 rounded-md font-semibold shadow hover:bg-gray-200"
+            >
+              Close ✕
+            </button>
+          </div>
+        </div>
       )}
     </div>
   );

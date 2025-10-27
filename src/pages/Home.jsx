@@ -4,6 +4,7 @@ import { db } from "../firebase";
 
 export default function Home() {
   const [posts, setPosts] = useState([]);
+  const [selectedImage, setSelectedImage] = useState(null); // 👈 for modal
 
   useEffect(() => {
     const fetchPosts = async () => {
@@ -43,7 +44,8 @@ export default function Home() {
                   <img
                     src={post.image}
                     alt={post.title}
-                    className="h-48 w-full object-cover"
+                    className="h-48 w-full object-cover cursor-pointer"
+                    onClick={() => setSelectedImage(post.image)} // 👈 click to open modal
                   />
                 ) : (
                   <div className="h-48 bg-gray-200 flex items-center justify-center text-gray-400">
@@ -77,6 +79,28 @@ export default function Home() {
           </div>
         )}
       </div>
+
+      {/* 👇 Fullscreen Image Modal */}
+      {selectedImage && (
+        <div
+          className="fixed inset-0 bg-black bg-opacity-80 flex justify-center items-center z-50"
+          onClick={() => setSelectedImage(null)}
+        >
+          <div className="relative">
+            <img
+              src={selectedImage}
+              alt="Full view"
+              className="max-h-[90vh] max-w-[90vw] rounded-lg shadow-lg"
+            />
+            <button
+              onClick={() => setSelectedImage(null)}
+              className="absolute top-3 right-3 bg-white text-gray-800 px-3 py-1 rounded-md font-semibold shadow hover:bg-gray-200"
+            >
+              Close ✕
+            </button>
+          </div>
+        </div>
+      )}
     </div>
   );
 }
