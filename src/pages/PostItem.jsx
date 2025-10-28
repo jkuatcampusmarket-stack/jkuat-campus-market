@@ -20,11 +20,17 @@ export default function PostItem() {
   const [message, setMessage] = useState("");
 
   const navigate = useNavigate();
-  const { id: postId } = useParams(); // get post ID from URL if editing
+  const { id: postId } = useParams(); // Get post ID from URL if editing
 
   const categories = [
-    "Clothes", "Shoes", "Electronics", "Books",
-    "Accessories", "Food", "Services", "Other",
+    "Clothes",
+    "Shoes",
+    "Electronics",
+    "Books",
+    "Accessories",
+    "Food",
+    "Services",
+    "Other",
   ];
 
   const handleChange = (e) => {
@@ -181,7 +187,9 @@ export default function PostItem() {
           >
             <option value="">-- Select Category --</option>
             {categories.map((cat) => (
-              <option key={cat} value={cat}>{cat}</option>
+              <option key={cat} value={cat}>
+                {cat}
+              </option>
             ))}
           </select>
         </div>
@@ -283,12 +291,22 @@ export default function PostItem() {
           disabled={loading}
           className="w-full bg-blue-500 text-white py-2 rounded-lg font-semibold hover:bg-blue-600 transition"
         >
-          {loading ? (postId ? "Updating..." : "Posting...") : (postId ? "Update Post" : "Post Item")}
+          {loading
+            ? postId
+              ? "Updating..."
+              : "Posting..."
+            : postId
+            ? "Update Post"
+            : "Post Item"}
         </button>
 
         {/* Message */}
         {message && (
-          <p className={`text-center font-medium ${message.includes("✅") ? "text-green-600" : "text-red-500"}`}>
+          <p
+            className={`text-center font-medium ${
+              message.includes("✅") ? "text-green-600" : "text-red-500"
+            }`}
+          >
             {message}
           </p>
         )}

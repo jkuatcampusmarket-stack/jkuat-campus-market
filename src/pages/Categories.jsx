@@ -9,7 +9,7 @@ export default function Categories() {
   const [loading, setLoading] = useState(false);
   const [selectedImage, setSelectedImage] = useState(null); // 👈 for full-screen modal
 
-  // ✅ Updated list (matches PostItem.jsx)
+  // ✅ Matches PostItem.jsx
   const categories = [
     "Clothes",
     "Shoes",
@@ -88,11 +88,42 @@ export default function Categories() {
                     onClick={() => setSelectedImage(post.image)} // 👈 click to open modal
                   />
                 )}
+
                 <h3 className="font-semibold text-lg">{post.title}</h3>
                 <p className="text-gray-700 mt-2 text-sm line-clamp-2">
                   {post.description}
                 </p>
                 <p className="text-blue-600 font-bold mt-2">KES {post.price}</p>
+
+                {/* ✅ Seller info and contact */}
+                <div className="mt-3 text-sm text-gray-600">
+                  <p>
+                    <span className="font-semibold">Seller:</span>{" "}
+                    {post.seller}
+                  </p>
+                  <p>
+                    <span className="font-semibold">Contact:</span>{" "}
+                    {post.contact}
+                  </p>
+
+                  {/* ✅ Call & Text buttons */}
+                  {post.contact && (
+                    <div className="flex gap-3 mt-2">
+                      <a
+                        href={`tel:${post.contact}`}
+                        className="px-3 py-1 bg-green-500 text-white rounded-lg text-sm hover:bg-green-600 transition"
+                      >
+                        📞 Call
+                      </a>
+                      <a
+                        href={`sms:${post.contact}`}
+                        className="px-3 py-1 bg-blue-500 text-white rounded-lg text-sm hover:bg-blue-600 transition"
+                      >
+                        💬 Text
+                      </a>
+                    </div>
+                  )}
+                </div>
               </div>
             ))}
           </div>

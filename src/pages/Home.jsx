@@ -52,6 +52,7 @@ export default function Home() {
                     No Image
                   </div>
                 )}
+
                 <div className="p-4">
                   <h3 className="text-lg font-semibold text-gray-800">
                     {post.title}
@@ -63,15 +64,35 @@ export default function Home() {
                   <p className="text-sm text-gray-600 mt-2 line-clamp-2">
                     {post.description}
                   </p>
+
                   <div className="mt-3 text-sm text-gray-500">
                     <p>
                       <span className="font-semibold">Seller:</span>{" "}
                       {post.seller}
                     </p>
+
                     <p>
                       <span className="font-semibold">Contact:</span>{" "}
                       {post.contact}
                     </p>
+
+                    {/* ✅ Call & Text Buttons */}
+                    {post.contact && (
+                      <div className="flex gap-3 mt-2">
+                        <a
+                          href={`tel:${post.contact}`}
+                          className="px-3 py-1 bg-green-500 text-white rounded-lg text-sm hover:bg-green-600 transition"
+                        >
+                          📞 Call
+                        </a>
+                        <a
+                          href={`sms:${post.contact}`}
+                          className="px-3 py-1 bg-blue-500 text-white rounded-lg text-sm hover:bg-blue-600 transition"
+                        >
+                          💬 Text
+                        </a>
+                      </div>
+                    )}
                   </div>
                 </div>
               </div>
