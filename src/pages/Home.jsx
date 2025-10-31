@@ -1,24 +1,29 @@
 import React, { useEffect, useState } from "react";
-import { collection, getDocs } from "firebase/firestore";
+import { collection, getDocs, query, orderBy } from "firebase/firestore";
 import { db } from "../firebase";
 
 export default function Home() {
   const [posts, setPosts] = useState([]);
-  const [selectedImage, setSelectedImage] = useState(null); // 👈 for modal
+  const [selectedImage, setSelectedImage] = useState(null);
 
   useEffect(() => {
     const fetchPosts = async () => {
       try {
-        const querySnapshot = await getDocs(collection(db, "posts"));
+        // ✅ Order posts by timestamp (latest first)
+        const q = query(collection(db, "posts"), orderBy("createdAt", "desc"));
+        const querySnapshot = await getDocs(q);
         const postsArray = [];
+
         querySnapshot.forEach((doc) => {
           postsArray.push({ id: doc.id, ...doc.data() });
         });
+
         setPosts(postsArray);
       } catch (err) {
         console.error("Error fetching posts:", err);
       }
     };
+
     fetchPosts();
   }, []);
 
@@ -45,7 +50,7 @@ export default function Home() {
                     src={post.image}
                     alt={post.title}
                     className="h-48 w-full object-cover cursor-pointer"
-                    onClick={() => setSelectedImage(post.image)} // 👈 click to open modal
+                    onClick={() => setSelectedImage(post.image)}
                   />
                 ) : (
                   <div className="h-48 bg-gray-200 flex items-center justify-center text-gray-400">
@@ -70,7 +75,6 @@ export default function Home() {
                       <span className="font-semibold">Seller:</span>{" "}
                       {post.seller}
                     </p>
-
                     <p>
                       <span className="font-semibold">Contact:</span>{" "}
                       {post.contact}
@@ -101,7 +105,7 @@ export default function Home() {
         )}
       </div>
 
-      {/* 👇 Fullscreen Image Modal */}
+      {/* Fullscreen Image Modal */}
       {selectedImage && (
         <div
           className="fixed inset-0 bg-black bg-opacity-80 flex justify-center items-center z-50"
