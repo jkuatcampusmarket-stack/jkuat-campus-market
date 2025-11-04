@@ -2,6 +2,7 @@ import React, { useState } from "react";
 import { signInWithEmailAndPassword } from "firebase/auth";
 import { auth } from "../firebase";
 import { Link, useNavigate } from "react-router-dom";
+import logo from "../assets/logo.png"; // Adjust if your logo path differs
 
 export default function Login() {
   const [email, setEmail] = useState("");
@@ -20,12 +21,25 @@ export default function Login() {
   };
 
   return (
-    <div className="min-h-screen bg-gray-50 flex items-center justify-center px-4">
-      <div className="bg-white shadow-lg rounded-2xl w-full max-w-md p-8">
-        <h2 className="text-2xl font-bold text-center text-blue-800 mb-6">
-          Login to JKUAT Campus Market
+    <div className="min-h-screen flex items-center justify-center bg-gradient-to-br from-brandBlue via-brandGreen to-brandYellow px-4">
+      <div className="bg-white shadow-2xl rounded-2xl w-full max-w-md p-8 animate-fadeIn">
+        
+        {/* Logo */}
+        <div className="flex justify-center mb-4">
+          <img src={logo} alt="Campus Marketplace Logo" className="h-16 w-auto" />
+        </div>
+
+        {/* Welcome Text */}
+        <h2 className="text-2xl font-bold text-center text-brandBlue mb-2">
+          Login to Campus Marketplace
         </h2>
-        {error && <p className="text-red-500 text-sm mb-4">{error}</p>}
+        <p className="text-center text-gray-600 mb-6 leading-relaxed">
+          <span className="text-brandGreen font-semibold">Hello.</span> Buying and
+          Selling has never been easier.
+        </p>
+
+        {error && <p className="text-red-500 text-sm mb-4 text-center">{error}</p>}
+
         <form onSubmit={handleLogin} className="space-y-4">
           <div>
             <label className="block text-sm font-medium text-gray-600 mb-1">
@@ -36,7 +50,7 @@ export default function Login() {
               value={email}
               onChange={(e) => setEmail(e.target.value)}
               required
-              className="w-full border rounded-lg px-3 py-2 focus:ring-2 focus:ring-blue-600 outline-none"
+              className="w-full border border-gray-200 rounded-lg px-3 py-2 focus:ring-2 focus:ring-brandBlue outline-none transition"
               placeholder="Enter your email"
             />
           </div>
@@ -50,14 +64,14 @@ export default function Login() {
               value={password}
               onChange={(e) => setPassword(e.target.value)}
               required
-              className="w-full border rounded-lg px-3 py-2 focus:ring-2 focus:ring-blue-600 outline-none"
+              className="w-full border border-gray-200 rounded-lg px-3 py-2 focus:ring-2 focus:ring-brandBlue outline-none transition"
               placeholder="Enter your password"
             />
           </div>
 
           <button
             type="submit"
-            className="w-full bg-blue-700 text-white py-2 rounded-lg hover:bg-yellow-400 hover:text-blue-900 transition font-semibold"
+            className="w-full bg-brandBlue text-white py-2 rounded-lg hover:bg-brandGreen hover:text-white transition duration-300 font-semibold"
           >
             Login
           </button>
@@ -65,7 +79,7 @@ export default function Login() {
 
         <p className="text-center text-sm text-gray-600 mt-4">
           Don’t have an account?{" "}
-          <Link to="/register" className="text-blue-700 hover:underline">
+          <Link to="/register" className="text-brandBlue hover:underline font-medium">
             Register
           </Link>
         </p>
