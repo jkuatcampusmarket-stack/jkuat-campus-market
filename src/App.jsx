@@ -7,6 +7,7 @@ import Categories from "./pages/Categories";
 import Login from "./pages/Login";
 import Register from "./pages/Register";
 import MyPosts from "./pages/MyPosts";
+import EditPost from "./pages/EditPost";
 import { useAuth } from "./context/AuthContext";
 import ProtectedRoute from "./components/ProtectedRoute";
 
@@ -36,7 +37,7 @@ function App() {
           </Link>
 
           <div className="flex space-x-6 text-sm sm:text-base items-center">
-            {user && (
+            {user ? (
               <>
                 <Link
                   to="/"
@@ -69,9 +70,7 @@ function App() {
                   Logout
                 </button>
               </>
-            )}
-
-            {!user && (
+            ) : (
               <>
                 <Link
                   to="/login"
@@ -128,6 +127,14 @@ function App() {
             element={
               <ProtectedRoute>
                 <MyPosts />
+              </ProtectedRoute>
+            }
+          />
+          <Route
+            path="/edit/:id"
+            element={
+              <ProtectedRoute>
+                <EditPost />
               </ProtectedRoute>
             }
           />
